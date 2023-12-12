@@ -169,6 +169,7 @@ class FlutterCarplay {
         rootTemplate.runtimeType == CPTabBarTemplate ||
         rootTemplate.runtimeType == CPInformationTemplate ||
         rootTemplate.runtimeType == CPPointOfInterestTemplate) {
+      print('setRootTemplate called');
       _carPlayController.methodChannel
           .invokeMethod('setRootTemplate', <String, dynamic>{
         'animated': animated,
@@ -185,6 +186,8 @@ class FlutterCarplay {
 
   /// It will set the current root template again.
   void forceUpdateRootTemplate() {
+    print('forceUpdateRootTemplate called');
+
     _carPlayController.methodChannel.invokeMethod('forceUpdateRootTemplate');
   }
 

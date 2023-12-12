@@ -7,4 +7,6 @@
 
 protocol FCPPresentTemplate {}
 
+protocol FCPPushTemplate {}
+
 protocol FCPRootTemplate {}

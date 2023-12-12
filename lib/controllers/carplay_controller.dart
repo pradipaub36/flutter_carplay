@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 
 import '../constants/private_constants.dart';
@@ -48,10 +51,11 @@ class FlutterCarPlayController {
     ).then((value) {
       if (value) {
         l1:
-        for (final h in templateHistory) {
-          switch (h.runtimeType) {
-            case CPTabBarTemplate _:
-              for (final t in (h as CPTabBarTemplate).templates) {
+        for (final template in templateHistory) {
+          switch (template) {
+            case final CPTabBarTemplate tabBarTemplate:
+              log('UpdateCPListItem tabbar template case called');
+              for (final t in tabBarTemplate.templates) {
                 for (final s in t.sections) {
                   for (final i in s.items) {
                     if (i.uniqueId == updatedListItem.uniqueId) {
@@ -65,19 +69,27 @@ class FlutterCarPlayController {
                 }
               }
               break;
-            case CPListTemplate _:
-              for (final s in (h as CPListTemplate).sections) {
+            case final CPListTemplate listTemplate:
+              log('UpdateCPListItem list template case called');
+              for (final s in listTemplate.sections) {
                 for (final i in s.items) {
                   if (i.uniqueId == updatedListItem.uniqueId) {
-                    currentRootTemplate!
-                        .sections[currentRootTemplate!.sections.indexOf(s)]
+                    template.sections[template.sections.indexOf(s)]
                         .items[s.items.indexOf(i)] = updatedListItem;
+                    log(
+                      jsonEncode(
+                        template.sections[template.sections.indexOf(s)]
+                            .items[s.items.indexOf(i)]
+                            .toJson(),
+                      ),
+                    );
                     break l1;
                   }
                 }
               }
               break;
             default:
+              log('UpdateCPListItem default case called');
           }
         }
       }

@@ -1,12 +1,25 @@
 // ignore_for_file: avoid_print
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_carplay/flutter_carplay.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final flutterCarplay = FlutterCarplay();
+  // print('main method called');
+
+  // FlutterCarplay.setRootTemplate(
+  //   rootTemplate: CPMapTemplate(
+  //     title: 'Map Template',
+  //     mapButtons: [],
+  //     leadingNavigationBarButtons: [],
+  //     trailingNavigationBarButtons: [],
+  //   ),
+  // );
+  // flutterCarplay.forceUpdateRootTemplate();
+
   runApp(const MaterialApp(home: MyApp()));
 }
 
@@ -29,6 +42,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    print('MyApp.initState called');
 
     final section1Items = <CPListSection>[
       CPListSection(
@@ -172,7 +186,7 @@ class _MyAppState extends State<MyApp> {
                   systemIcon: 'house.fill',
                 ),
               );
-              if (didPush) log('Opened Home');
+              if (didPush) print('Opened Home');
             },
           ),
         ],
@@ -187,7 +201,7 @@ class _MyAppState extends State<MyApp> {
                   systemIcon: 'star.circle.fill',
                 ),
               );
-              if (didPush) log('Opened Features');
+              if (didPush) print('Opened Features');
             },
           ),
           CPBarButton(
@@ -204,7 +218,7 @@ class _MyAppState extends State<MyApp> {
                   systemIcon: 'gear',
                 ),
               );
-              if (didPush) log('Opened Settings');
+              if (didPush) print('Opened Settings');
             },
           ),
         ],
@@ -372,7 +386,13 @@ class _MyAppState extends State<MyApp> {
           CPListSection(
             header: 'A Section',
             items: [
-              CPListItem(text: 'Item 1'),
+              CPListItem(
+                text: 'Item 1',
+                onPressed: (onCompleted, item) {
+                  openListTemplate();
+                  onCompleted();
+                },
+              ),
               CPListItem(text: 'Item 2'),
               CPListItem(text: 'Item 3'),
               CPListItem(text: 'Item 4'),
@@ -590,7 +610,7 @@ class _MyAppState extends State<MyApp> {
       });
       FlutterCarplay.addListenerOnSpeechRecognitionTranscriptChange(
         onSpeechRecognitionTranscriptChange: (transcript) {
-          log('Transcript: $transcript');
+          print('Transcript: $transcript');
           setState(() => voiceControlTranscript = transcript);
           checkVoiceControlTranscript(
             transcript: transcript,

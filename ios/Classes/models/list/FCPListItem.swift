@@ -67,8 +67,10 @@ class FCPListItem {
 
     public func stopHandler() {
         guard completeHandler != nil else {
+            print("Swift: stopHandler is null for \(elementId)")
             return
         }
+        print("Swift: stopHandler called for \(elementId)")
         completeHandler!()
         completeHandler = nil
     }
